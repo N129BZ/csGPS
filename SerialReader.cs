@@ -121,7 +121,7 @@ namespace csGPS
               This method is a Linux specific KLUDGE. NET Core doesn't have 
               any good way of iterating the port device data to get a valid PID,
               so this just uses redirecting the console standard output and parsing 
-              the rersults of a lsusb command. 
+              the results of a lsusb command. 
              ####################################################################*/
 
             var process = new Process();
