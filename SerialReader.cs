@@ -51,10 +51,12 @@ namespace csGPS
         
         private string deviceSerialPort = "";
         private int baudRate = 9600;
-        private string UBLOX_PID = UBLOX_PIDS.UBLOX_NONE;
-        private SerialPort serialPort = new SerialPort();
+        private int readTimeout = 5000;
         private bool running = false;
-
+        private string UBLOX_PID = UBLOX_PIDS.UBLOX_NONE;
+        
+        private SerialPort serialPort = new SerialPort();
+        
         protected virtual void fireDataReceived(SerialData data)
         {
             if (data.Sentence.Length > 5) {
@@ -67,10 +69,9 @@ namespace csGPS
         }
     		
         public void Run() {
+            
             running = true;
             bool portFound = false;
-           
-            
             
             String[] PortNames = SerialPort.GetPortNames();
             
@@ -95,22 +96,27 @@ namespace csGPS
                 serialPort.Parity = Parity.None;
                 serialPort.DataBits = 8;
                 serialPort.StopBits = StopBits.One;
+                serialPort.ReadTimeout = readTimeout;
                 serialPort.NewLine = Environment.NewLine;
-                serialPort.Open();   
-                
+                try {
+                    serialPort.Open();   
+                }
+                catch (System.IO.IOException ex) {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Exiting program, try again after the port is fully initialized by the OS.");
+                    running = false;
+                    return;
+                } 
+
                 while (!serialPort.IsOpen) { }
 
                 Console.WriteLine("Port " + deviceSerialPort + " opened at " + baudRate + " baud");
                 
                 writeConfig();
-                
                 while (running)
                 {
                     fireDataReceived(new SerialData(serialPort.ReadLine())); 
                 }
-            }
-            else {
-                running = false;
             }
         }
        
