@@ -54,7 +54,6 @@ namespace csGPS
         private SerialPort serialPort = new SerialPort();
         private bool running = false;
 
-        // Fire the DataReceived event 
         protected virtual void fireDataReceived(SerialData data)
         {
             if (data.Sentence.Length > 5) {
