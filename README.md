@@ -18,3 +18,10 @@ Will run either of 2 ways:
        dotnet run csGPS /dev/ttyACM0 9600
        dotnet run csGPS 115200 /dev/ttyACM0
   ```
+
+Dependencies:
+  ```
+      Newtonsoft.Json Version 13.0.1
+      System.IO.Ports Version 5.0.1
+      System.Management Version 5.0.0   
+  ```
