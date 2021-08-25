@@ -1,0 +1,70 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/bro/csGPS/csGPS.csproj": {}
+  },
+  "projects": {
+    "/home/bro/csGPS/csGPS.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/bro/csGPS/csGPS.csproj",
+        "projectName": "csGPS",
+        "projectPath": "/home/bro/csGPS/csGPS.csproj",
+        "packagesPath": "/home/bro/.nuget/packages/",
+        "outputPath": "/home/bro/csGPS/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/bro/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "System.IO.Ports": {
+              "target": "Package",
+              "version": "[5.0.1, )"
+            },
+            "System.Management": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.400/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
