@@ -98,9 +98,7 @@ namespace csGPS
                 serialPort.NewLine = Environment.NewLine;
                 serialPort.Open();   
                 
-                while (!serialPort.IsOpen) {
-                    Console.WriteLine("Waiting for serial port to open.");
-                }
+                while (!serialPort.IsOpen) { }
 
                 Console.WriteLine("Port " + deviceSerialPort + " opened at " + baudRate + " baud");
                 
@@ -176,8 +174,7 @@ namespace csGPS
             
             writeUbloxGenericConfigCommands(10);
 
-            reconfigureSerialPort();
-        	
+            //reconfigureSerialPort();
         }
 
         void writeUbloxGenericConfigCommands(int navrate) {

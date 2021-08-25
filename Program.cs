@@ -8,15 +8,9 @@ namespace csGPS
     {
         public static void Main(string[] args)
         {
-            int baudrate = 9600; // default
+            int baudrate = 9600; 
 
-            string port = args[0];
-
-            if (args.Length > 1) {
-                if (int.TryParse(args[1], out int br)) {
-                    baudrate = br;
-                }
-            }
+            string port = "/dev/ttyACM0";
             
             SerialReader reader = new SerialReader(port, baudrate);
             reader.OnDataReceived += OnDataReceived;
