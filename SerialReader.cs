@@ -39,20 +39,19 @@ namespace csGPS
         public const string UBLOX_9 = "u-blox 9";
     }
 
-    
-
     class SerialReader {
 
-        public SerialReader(string port) {
+        public SerialReader(string port, int baudrate) {
             deviceSerialPort = port;
+            baudRate = baudrate;
         }
         
         public event EventHandler<SerialData> OnDataReceived;
         
         private string deviceSerialPort = "";
+        private int baudRate = 9600;
         private string UBLOX_PID = "";
         private SerialPort serialPort = new SerialPort();
-        private UInt32[] baudrates = new UInt32[]{9600};
         private bool running = false;
 
         // Fire the DataReceived event 
@@ -66,7 +65,7 @@ namespace csGPS
         public void Stop() {
             running = false;
         }
-
+    		
         public void Run() {
             running = true;
             bool portFound = false;
@@ -84,7 +83,7 @@ namespace csGPS
                 getUbloxVersion();
 
                 serialPort.PortName = deviceSerialPort;
-                serialPort.BaudRate = 9600;
+                serialPort.BaudRate = baudRate;
                 serialPort.Parity = Parity.None;
                 serialPort.DataBits = 8;
                 serialPort.StopBits = StopBits.One;
@@ -94,6 +93,8 @@ namespace csGPS
                 while (!serialPort.IsOpen) {
                     Console.WriteLine("Waiting for serial port to open.");
                 }
+
+                Console.WriteLine("Port " + deviceSerialPort + " opened at " + baudRate + " baud");
                 
                 writeConfig();
                 
@@ -113,7 +114,6 @@ namespace csGPS
             startInfo.UseShellExecute = false;
             startInfo.FileName = "/usr/bin/lsusb";
             startInfo.RedirectStandardOutput = true;
-            //process.EnableRaisingEvents = true;
             process.StartInfo = startInfo;
             process.Start();
             string strOutput = process.StandardOutput.ReadToEnd();
@@ -319,14 +319,7 @@ namespace csGPS
 
     		// UBX-CFG-PRT (Port Configuration for UART)
     		serialPortWrite(makeUBXCFG(0x06, 0x00, 20, cfg));
-
-
-    		//	time.Sleep(100* time.Millisecond) // pause and wait for the GPS to finish configuring itself before closing / reopening the port
-    		
-            baudrates[0] = bdrt;
-            serialPort.BaudRate = (Int32)bdrt;
-            Thread.Sleep(250);
-
+            
         }
    
         void serialPortWrite(byte[] msg) {
