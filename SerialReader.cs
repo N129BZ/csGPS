@@ -37,6 +37,7 @@ namespace csGPS
         public const string UBLOX_7 = "u-blox 7";
         public const string UBLOX_8 = "u-blox 8";
         public const string UBLOX_9 = "u-blox 9";
+        public const string UBLOX_NONE = "none";
     }
 
     class SerialReader {
@@ -50,7 +51,7 @@ namespace csGPS
         
         private string deviceSerialPort = "";
         private int baudRate = 9600;
-        private string UBLOX_PID = "";
+        private string UBLOX_PID = UBLOX_PIDS.UBLOX_NONE;
         private SerialPort serialPort = new SerialPort();
         private bool running = false;
 
@@ -68,6 +69,8 @@ namespace csGPS
         public void Run() {
             running = true;
             bool portFound = false;
+           
+            
             
             String[] PortNames = SerialPort.GetPortNames();
             
@@ -79,7 +82,13 @@ namespace csGPS
             }
             
             if (portFound) {
-                getUbloxVersion();
+
+                if (OperatingSystem.IsLinux()) {
+                    getUbloxVersionLinux();
+                } 
+                else if (OperatingSystem.IsWindows()) {
+                    getUbloxVersionWindows();
+                }
 
                 serialPort.PortName = deviceSerialPort;
                 serialPort.BaudRate = baudRate;
@@ -107,7 +116,14 @@ namespace csGPS
             }
         }
        
-        void getUbloxVersion() {
+        void getUbloxVersionLinux() {
+            /*##################################################################
+              This method is a Linux specific KLUDGE. NET Core doesn't have 
+              any good way of iterating the port device data to get a valid PID,
+              so this just uses redirecting the console standard output and parsing 
+              the rersults of a lsusb command. 
+             ####################################################################*/
+
             var process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.UseShellExecute = false;
@@ -130,15 +146,17 @@ namespace csGPS
                 else if (s.Contains(UBLOX_PIDS.UBLOX_9)) {
                     UBLOX_PID = UBLOX_PIDS.UBLOX_9;
                 }
-
-                if (UBLOX_PID.Length > 0) {
-                    break; // exit the loop
-                }
             }
-            process.WaitForExit();
-            Console.WriteLine($"{UBLOX_PID} detected.");
+            
+            if (UBLOX_PID != UBLOX_PIDS.UBLOX_NONE) {
+                Console.WriteLine($"{UBLOX_PID} detected.");
+            }
         }
         
+        void getUbloxVersionWindows() {
+            // NOT YET IMPLEMENTED!!
+        }
+
         void writeConfig() {
             
             switch (UBLOX_PID) {
