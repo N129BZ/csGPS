@@ -42,28 +42,21 @@ namespace csGPS
 
     class SerialReader {
 
-        public SerialReader(string port, int baudrate) {
-            deviceSerialPort = port;
-            baudRate = baudrate;
-        }
-        
-        public event EventHandler<SerialData> OnDataReceived;
-        
         private string deviceSerialPort = "";
         private int baudRate = 9600;
         private int readTimeout = 5000;
         private bool running = false;
         private string UBLOX_PID = UBLOX_PIDS.UBLOX_NONE;
-        
+        private SerialDataCallback callback;
         private SerialPort serialPort = new SerialPort();
         
-        protected virtual void fireDataReceived(SerialData data)
-        {
-            if (data.Sentence.Length > 5) {
-                OnDataReceived?.Invoke(this, data);
-            }
+        // c'tor
+        public SerialReader(string port, int baudrate, SerialDataCallback sdcallback) {
+            deviceSerialPort = port;
+            baudRate = baudrate;
+            callback = sdcallback;
         }
-
+        
         public void Stop() {
             running = false;
         }
@@ -83,7 +76,6 @@ namespace csGPS
             }
             
             if (portFound) {
-
                 if (OperatingSystem.IsLinux()) {
                     getUbloxVersionLinux();
                 } 
@@ -115,12 +107,7 @@ namespace csGPS
                 writeConfig();
 
                 while (running) {
-                    try {
-                        fireDataReceived(new SerialData(serialPort.ReadLine()));
-                    } 
-                    catch (System.ObjectDisposedException) {
-                        return;
-                    }
+                    callback?.Invoke(new SerialData(serialPort.ReadLine()));
                 }
             }
         }

@@ -4,7 +4,9 @@ using System.Threading;
 using Newtonsoft.Json.Linq;
 
 namespace csGPS 
-{    
+{  
+    public delegate void SerialDataCallback(SerialData data);
+
     class Program 
     {
         public static void Main(string[] args) 
@@ -47,10 +49,10 @@ namespace csGPS
                 }
             }
 
-            SerialReader reader = new SerialReader(port, baudrate);
+            SerialDataCallback callback = new SerialDataCallback(SerialDataReceived);
+            SerialReader reader = new SerialReader(port, baudrate, callback);
             Thread readerThread = new Thread(new ThreadStart(reader.Run));
 
-            reader.OnDataReceived += OnDataReceived;
             readerThread.Start();
 
             // Pressing any key will stop the application
@@ -61,7 +63,7 @@ namespace csGPS
             reader = null;
         }
 
-        private static void OnDataReceived(object sender, SerialData data) {
+        private static void SerialDataReceived(SerialData data) {
             Console.WriteLine(data.Sentence);
         }
     }
