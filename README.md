@@ -5,14 +5,14 @@ Will run either of 2 ways:
 
   1. Call "dotnet run csGPS" and use the csGPSconfig.json file with portname and baudrate values:
   ```
-       {
-            "csGPSconfig": {
-                "serialport": {
-                    "portname": "/dev/ttyACM0",
-                    "baudrate": 9600
-                }
-            }
-       }
+    {
+         "csGPSconfig": {
+             "serialport": {
+                 "portname": "/dev/ttyACM0",
+                 "baudrate": 9600
+             }
+         }
+     }
   ```
   
   2. Call "dotnet run csGPS" and pass the 2 value arguments (order doesn't matter)
