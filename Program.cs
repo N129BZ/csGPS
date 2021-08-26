@@ -34,8 +34,8 @@ namespace csGPS
             if (!hasArgs) {
                 try {
                     JObject jo = JObject.Parse(File.ReadAllText("./csGPSconfig.json"));
-                    port = (string)jo["csgpsConfiguration"]["serialport"]["portname"];
-                    baudrate = (int)jo["csgpsConfiguration"]["serialport"]["baudrate"];
+                    port = (string)jo["csGPSconfig"]["serialport"]["portname"];
+                    baudrate = (int)jo["csGPSconfig"]["serialport"]["baudrate"];
                 }
                 catch (System.IO.FileNotFoundException) {
                     Console.WriteLine("No csGPSconfig.json file and no args! Exiting.");
