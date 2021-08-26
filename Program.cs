@@ -22,7 +22,7 @@ namespace csGPS
                             baudrate = testint;
                             hasArgs = true;
                         }
-                        else if (s.Contains("/dev") || s.Contains("COM")) {
+                        else if (s.Contains("/dev")) {
                             port = s;
                             hasArgs = true;
                         }
@@ -50,12 +50,14 @@ namespace csGPS
             }
 
             SerialReader reader = new SerialReader(port, baudrate);
-            ThreadStart ts = new ThreadStart(reader.Run);
-            Thread readerThread = new Thread(ts);
+            Thread readerThread = new Thread(new ThreadStart(reader.Run));
 
             reader.OnDataReceived += OnDataReceived;
             readerThread.Start();
+
+            // Pressing any key will stop the application
             Console.ReadLine();
+            
             reader.Stop();
             readerThread = null;
             reader = null;
