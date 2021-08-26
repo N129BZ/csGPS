@@ -42,10 +42,8 @@ namespace csGPS
                     return;   
                 }
                 catch (Newtonsoft.Json.JsonReaderException) {
-                    if (args.Length == 0) {
-                        Console.WriteLine("Bad value(s) in csGPSconfig.json. Exiting.");
-                        return;
-                    }
+                    Console.WriteLine("Bad value(s) in csGPSconfig.json. Exiting.");
+                    return;
                 }
             }
 
@@ -57,7 +55,7 @@ namespace csGPS
 
             // Pressing any key will stop the application
             Console.ReadLine();
-            
+
             reader.Stop();
             readerThread = null;
             reader = null;
