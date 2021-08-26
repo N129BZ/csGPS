@@ -3,13 +3,15 @@ Ublox GPS usb dongle contol in a C# console app, written in .NET Core on Ubuntu 
 
 Will run either of 2 ways:
 
-  1. Call "dotnet run csGPS" and use a valid csGPSconfig.json file with portname and baudrate values:
+  1. Call "dotnet run csGPS" and use thed csGPSconfig.json file with portname and baudrate values:
   ```
-       {
-          "serialport": {
-          "portname": "/dev/ttyACM0",
-          "baudrate": 9600
-          }
+       {  
+          "csGPSconfig" {
+              "serialport": {
+              "portname": "/dev/ttyACM0",
+              "baudrate": 9600
+             }
+          }   
        }
   ```
   
