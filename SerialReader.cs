@@ -113,9 +113,14 @@ namespace csGPS
                 Console.WriteLine("Port " + deviceSerialPort + " opened at " + baudRate + " baud");
                 
                 writeConfig();
-                while (running)
-                {
-                    fireDataReceived(new SerialData(serialPort.ReadLine())); 
+
+                while (running) {
+                    try {
+                        fireDataReceived(new SerialData(serialPort.ReadLine()));
+                    } 
+                    catch (System.ObjectDisposedException) {
+                        return;
+                    }
                 }
             }
         }
