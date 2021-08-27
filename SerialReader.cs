@@ -21,7 +21,7 @@ using System.Threading;
 
 namespace csGPS
 {
-    public class SerialData : EventArgs {
+    public class SerialData {
         
         public SerialData(string sentence)
         {
