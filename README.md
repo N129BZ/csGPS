@@ -1,4 +1,4 @@
-# csGPS - output NMEA sentences from Ublox USB GPS receiver to the console
+# (csGPS IS NOW OBSOLETE, SEE http://github.com/N129BZ/csNMEA)
 
 ### Ublox GPS usb dongle contol in a C# console app, written in .NET Core on Ubuntu Linux.  Adapted from Stratux file gps.go. Huge thank you to github.com/cyoung and github.com/b3nn0 for all of their work "in the trenches" on this functionality.  
 
